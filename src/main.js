@@ -19,80 +19,80 @@ let companyEmployers = [
     city: 'Нурсултан',
     center: 'Центр 1',
     dep: 'Управление 1',
-    official: 10,
-    fact: 3
+    official: 46,
+    fact: 14
   },
   {
     id: 2,
     city: 'Нурсултан',
     center: 'Центр 1',
     dep: 'Управление 2',
-    official: 10,
-    fact: 3
+    official: 17,
+    fact: 6
   },
   {
     id: 3,
     city: 'Нурсултан',
     center: 'Центр 2',
     dep: 'Управление 1',
-    official: 10,
-    fact: 3
+    official: 48,
+    fact: 13
   },
   {
     id: 4,
     city: 'Нурсултан',
     center: 'Центр 2',
     dep: 'Управление 2',
-    official: 10,
-    fact: 3
+    official: 18,
+    fact: 5
   },
   {
     id: 5,
     city: 'Алматы',
     center: 'Центр 1',
     dep: 'Управление 1',
-    official: 10,
-    fact: 3
+    official: 40,
+    fact: 25
   },
   {
     id: 6,
     city: 'Алматы',
     center: 'Центр 1',
     dep: 'Управление 2',
-    official: 10,
-    fact: 3
+    official: 24,
+    fact: 13
   },
   {
     id: 7,
     city: 'Алматы',
     center: 'Центр 2',
     dep: 'Управление 1',
-    official: 10,
-    fact: 3
+    official: 50,
+    fact: 15
   },
   {
     id: 8,
     city: 'Алматы',
     center: 'Центр 2',
     dep: 'Управление 2',
-    official: 10,
-    fact: 3
+    official: 16,
+    fact: 7
   },
   {
     id: 9,
     city: 'Атырау',
     center: 'Центр 1',
     dep: 'Управление 1',
-    official: 10,
-    fact: 3
+    official: 6,
+    fact: 4
   },
   {
     id: 10,
     city: 'Атырау',
     center: 'Центр 1',
     dep: 'Управление 2',
-    official: 10,
-    fact: 3
+    official: 40,
+    fact: 8
   },
   {
     id: 11,
@@ -107,8 +107,8 @@ let companyEmployers = [
     city: 'Атырау',
     center: 'Центр 2',
     dep: 'Управление 2',
-    official: 10,
-    fact: 3
+    official: 15,
+    fact: 5
   }
 ]
 
@@ -164,7 +164,30 @@ const store = createStore({
         }
       }
 
+      for (let n = 0; n < dataTree.length; n++) {
+        dataTree[n].fact = 0;
+        dataTree[n].official = 0;
+        for (let k = 0; k < deps.length; k++) {
+          if (dataTree[n].city === deps[k].city) {
+            dataTree[n].fact += deps[k].fact
+            dataTree[n].official += deps[k].official
+          }
+        }
+      }
 
+      for (let n = 0; n < dataTree.length; n++) {
+        for (let k = 0; k < dataTree[n].centers.length; k++) {
+          dataTree[n].centers[k].fact = 0;
+          dataTree[n].centers[k].official = 0;
+          for (let i = 0; i < deps.length; i++) {
+            if (deps[i].city === dataTree[n].city && deps[i].center === dataTree[n].centers[k].name) {
+              dataTree[n].centers[k].fact += deps[i].fact;
+              dataTree[n].centers[k].official += deps[i].official;
+            }
+          }
+        }
+
+      }
 
       return dataTree
     }

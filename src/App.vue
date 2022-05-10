@@ -1,13 +1,20 @@
 <template>
-  <div>{{ getObj }}</div>
+  <div v-for="city in getDataTree" :key="city">
+    <div>{{ city.city }} {{ city.fact }} {{ city.official }}</div>
+    <div v-for="center in city.centers" :key="center.name">
+      <div>{{ center.name }} {{ center.fact }} {{ center.official }}</div>
+      <div v-for="dep in center.deps" :key="dep.name">
+        {{ dep.name }} {{ dep.fact }} {{ dep.official }}
+      </div>
+    </div>
+  </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 
 export default {
   name: "App",
-  computed: mapGetters(["getObj"]),
+  computed: mapGetters(["getDataTree"]),
   methods: {},
 };
 </script>
