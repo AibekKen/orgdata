@@ -6,7 +6,12 @@
       <div class="titles__count row__column">Фактическое количество</div>
       <div class="titles__action row__column row__column_s">Действие</div>
     </div>
-    <div class="data-tree__city-block" v-for="city in getDataTree" :key="city">
+    <div
+      @click="openCity"
+      class="data-tree__city-block"
+      v-for="city in getDataTree"
+      :key="city"
+    >
       <div class="data-tree__city row">
         <div class="city__name row__column row__column_b">{{ city.city }}</div>
         <div class="city__count row__column">{{ city.fact }}</div>
@@ -14,20 +19,21 @@
         <div class="city__action row__column row__column_s">Действие</div>
       </div>
       <div
+        @click="openCenter"
         class="data-tree__center-block"
         v-for="center in city.centers"
         :key="center.name"
       >
         <div class="data-tree__center row">
-          <div class="city__name row__column row__column_b">
+          <div class="center__name row__column row__column_b">
             {{ center.name }}
           </div>
-          <div class="city__count row__column">{{ center.fact }}</div>
-          <div class="city__count row__column">{{ center.official }}</div>
-          <div class="city__action row__column row__column_s">Действие</div>
+          <div class="сenter__count row__column">{{ center.fact }}</div>
+          <div class="сenter__count row__column">{{ center.official }}</div>
+          <div class="сenter__action row__column row__column_s">Действие</div>
         </div>
         <div
-          class="data-tree__center-block"
+          class="data-tree__deps-block"
           v-for="dep in center.deps"
           :key="dep.name"
         >
@@ -50,7 +56,15 @@ import { mapGetters } from "vuex";
 export default {
   name: "App",
   computed: mapGetters(["getDataTree"]),
-  methods: {},
+  methods: {
+    openCity: (e) => {
+      e.currentTarget.classList.toggle("active");
+    },
+    openCenter: (e) => {
+      e.stopPropagation();
+      e.currentTarget.classList.toggle("active");
+    },
+  },
 };
 </script>
 
@@ -59,33 +73,16 @@ $minwidth: 320px;
 $fontfamily: Arial;
 @import "./assets/styles/nullstyle.scss";
 #app {
-  max-width: 1200px;
+  max-width: 800px;
   padding: 30px 15px;
   margin: 0 auto;
 }
 
-.data-tree {
-  &__titles {
-  }
 
-  &__city-block {
-  }
 
-  &__city {
-  }
-
-  &__center-block {
-  }
-
-  &__center {
-  }
-
-  &__dep {
-  }
-}
 .row {
+  padding: 10px 0;
   display: flex;
-  padding: 5px 0 0 0;
   &__column {
     text-align: center;
     flex: 1 1 25%;
@@ -97,16 +94,71 @@ $fontfamily: Arial;
     }
   }
 }
+.data-tree {
+  &__titles {
+    padding: 0;
+    background: #2d3e50;
+    color: #fff;
+  }
+
+  &__city-block {
+    position: relative;
+    z-index: 1;
+    &.active {
+      > .data-tree__center-block {
+        height: 100%;
+      }
+    }
+  }
+
+  &__city {
+    border-bottom: 1px solid #6162632a;
+  }
+
+  &__center-block {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    height: 0;
+    &.active {
+      > .data-tree__deps-block {
+        height: 100%;
+      }
+    }
+  }
+
+  &__center {
+    background: #e4edfc;
+    border-bottom: 1px solid #fffefe8b;
+  }
+  &__deps-block {
+    overflow: hidden;
+    height: 0;
+  }
+
+  &__dep {
+    background: #9dc4ff;
+    border-bottom: 1px solid #fffefe8b;
+  }
+}
+
 .titles {
   &__name {
+    padding: 10px 0;
+    border: 1px solid #fff;
   }
 
   &__count {
+    padding: 10px 0;
+    border: 1px solid #fff;
   }
 
   &__action {
+    padding: 10px 0;
+    border: 1px solid #fff;
   }
 }
+
 .city {
   &__name {
   }
@@ -117,8 +169,20 @@ $fontfamily: Arial;
   &__action {
   }
 }
+.center {
+  &__name {
+    padding-left: 20px;
+  }
+
+  &__count {
+  }
+
+  &__action {
+  }
+}
 .dep {
   &__name {
+    padding-left: 50px;
   }
 
   &__count {
