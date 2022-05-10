@@ -1,5 +1,7 @@
 <template>
   <div>
+    <div class="title">ОРГАНИЗАЦИОННАЯ СТРУКТУРА</div>
+    <add-dep-modal />
     <div class="data-tree__titles row">
       <div class="titles__name row__column row__column_b"></div>
       <div class="titles__count row__column row__column">Общее количество</div>
@@ -65,18 +67,48 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
+import AddDepModal from "./components/AddDepModal.vue";
 
 export default {
+  components: { AddDepModal },
   name: "App",
   computed: mapGetters(["getDataTree"]),
   methods: {
+    ...mapMutations(["addDeps"]),
     openCity: (e) => {
       e.currentTarget.classList.toggle("active");
     },
     openCenter: (e) => {
       e.stopPropagation();
       e.currentTarget.classList.toggle("active");
+    },
+    openModal: () => {
+      const modal = document.querySelector(".add-dep__modal");
+      modal.classList.add("active");
+    },
+    closeModal: () => {
+      const modal = document.querySelector(".add-dep__modal");
+      modal.classList.remove("active");
+    },
+    addDep: (e) => {
+      e.preventDefault();
+      class Dep {
+        constructor(city, center, dep, official, fact) {
+          this.id = Date.now();
+          this.city = city;
+          this.center = center;
+          this.dep = dep;
+          this.official = official;
+          this.fact = fact;
+        }
+      }
+      const city = document.querySelector(".add-dep__input-city").value;
+      const center = document.querySelector(".add-dep__input-center").value;
+      const dep = document.querySelector(".add-dep__input-dep").value;
+      const gen = document.querySelector(".add-dep__input-gen").value;
+      const fact = document.querySelector(".add-dep__input-fact").value;
+      this.addDeps("addDep", new Dep(city, center, dep, gen, fact));
     },
   },
 };
@@ -94,6 +126,7 @@ $fontfamily: Arial;
 * {
   transition: all 0.3s ease-in;
 }
+
 .row {
   padding: 10px 0;
   display: flex;
@@ -112,6 +145,17 @@ $fontfamily: Arial;
       }
     }
   }
+}
+.title {
+  padding: 10px;
+  margin: 0 0 10px 0;
+  color: #fff;
+  background: #2d3e50;
+}
+
+.add-dep {
+  padding: 5px;
+  margin: 0 0 20px 0;
 }
 .data-tree {
   &__titles {

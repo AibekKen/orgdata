@@ -2,120 +2,111 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createStore } from 'vuex'
 
-class Dep {
-  constructor(city, center, dep, official, fact) {
-    this.id = Date.now();
-    this.city = city;
-    this.center = center;
-    this.dep = dep;
-    this.official = official;
-    this.fact = fact;
-  }
-}
 
-let companyEmployers = [
-  {
-    id: 1,
-    city: 'Нурсултан',
-    center: 'Центр 1',
-    dep: 'Управление 1',
-    official: 46,
-    fact: 14
-  },
-  {
-    id: 2,
-    city: 'Нурсултан',
-    center: 'Центр 1',
-    dep: 'Управление 2',
-    official: 17,
-    fact: 6
-  },
-  {
-    id: 3,
-    city: 'Нурсултан',
-    center: 'Центр 2',
-    dep: 'Управление 1',
-    official: 48,
-    fact: 13
-  },
-  {
-    id: 4,
-    city: 'Нурсултан',
-    center: 'Центр 2',
-    dep: 'Управление 2',
-    official: 18,
-    fact: 5
-  },
-  {
-    id: 5,
-    city: 'Алматы',
-    center: 'Центр 1',
-    dep: 'Управление 1',
-    official: 40,
-    fact: 25
-  },
-  {
-    id: 6,
-    city: 'Алматы',
-    center: 'Центр 1',
-    dep: 'Управление 2',
-    official: 24,
-    fact: 13
-  },
-  {
-    id: 7,
-    city: 'Алматы',
-    center: 'Центр 2',
-    dep: 'Управление 1',
-    official: 50,
-    fact: 15
-  },
-  {
-    id: 8,
-    city: 'Алматы',
-    center: 'Центр 2',
-    dep: 'Управление 2',
-    official: 16,
-    fact: 7
-  },
-  {
-    id: 9,
-    city: 'Атырау',
-    center: 'Центр 1',
-    dep: 'Управление 1',
-    official: 6,
-    fact: 4
-  },
-  {
-    id: 10,
-    city: 'Атырау',
-    center: 'Центр 1',
-    dep: 'Управление 2',
-    official: 40,
-    fact: 8
-  },
-  {
-    id: 11,
-    city: 'Атырау',
-    center: 'Центр 2',
-    dep: 'Управление 1',
-    official: 10,
-    fact: 3
-  },
-  {
-    id: 12,
-    city: 'Атырау',
-    center: 'Центр 2',
-    dep: 'Управление 2',
-    official: 15,
-    fact: 5
-  }
-]
+
+
 
 const store = createStore({
   state() {
     return {
-      companyEmployers: companyEmployers
+      companyEmployers: [
+        {
+          id: 1,
+          city: 'Нур-Cултан',
+          center: 'Центр 1',
+          dep: 'Управление 1',
+          official: 46,
+          fact: 14
+        },
+        {
+          id: 2,
+          city: 'Нур-Cултан',
+          center: 'Центр 1',
+          dep: 'Управление 2',
+          official: 17,
+          fact: 6
+        },
+        {
+          id: 3,
+          city: 'Нур-Cултан',
+          center: 'Центр 2',
+          dep: 'Управление 1',
+          official: 48,
+          fact: 13
+        },
+        {
+          id: 4,
+          city: 'Нур-Cултан',
+          center: 'Центр 2',
+          dep: 'Управление 2',
+          official: 18,
+          fact: 5
+        },
+        {
+          id: 5,
+          city: 'Алматы',
+          center: 'Центр 1',
+          dep: 'Управление 1',
+          official: 40,
+          fact: 25
+        },
+        {
+          id: 6,
+          city: 'Алматы',
+          center: 'Центр 1',
+          dep: 'Управление 2',
+          official: 24,
+          fact: 13
+        },
+        {
+          id: 7,
+          city: 'Алматы',
+          center: 'Центр 2',
+          dep: 'Управление 1',
+          official: 50,
+          fact: 15
+        },
+        {
+          id: 8,
+          city: 'Алматы',
+          center: 'Центр 2',
+          dep: 'Управление 2',
+          official: 16,
+          fact: 7
+        },
+        {
+          id: 9,
+          city: 'Атырау',
+          center: 'Центр 1',
+          dep: 'Управление 1',
+          official: 6,
+          fact: 4
+        },
+        {
+          id: 10,
+          city: 'Атырау',
+          center: 'Центр 1',
+          dep: 'Управление 2',
+          official: 40,
+          fact: 8
+        },
+        {
+          id: 11,
+          city: 'Атырау',
+          center: 'Центр 2',
+          dep: 'Управление 1',
+          official: 10,
+          fact: 3
+        },
+        {
+          id: 12,
+          city: 'Атырау',
+          center: 'Центр 2',
+          dep: 'Управление 2',
+          official: 15,
+          fact: 5
+        }
+      ]
     }
   },
   getters: {
@@ -193,7 +184,7 @@ const store = createStore({
     }
   },
   mutations: {
-    addDep(state, obj) {
+    addDeps: (state, obj) => {
       state.companyEmployers.push(obj)
     }
   }
@@ -202,6 +193,6 @@ const store = createStore({
 const app = createApp(App)
 app.use(store)
 app.mount('#app')
-store.commit('addDep', new Dep("Караганда", 'Центр 1', "Управление 2", 10, 5))
+
 console.log(store.state.companyEmployers)
-console.log(store.getDataTree())
+console.log(store.getters.getDataTree)
