@@ -13,10 +13,15 @@
       :key="city"
     >
       <div class="data-tree__city row">
-        <div class="city__name row__column row__column_b">{{ city.city }}</div>
+        <div class="city__name row__column row__column_b">
+          <span>&#62;</span> {{ city.city }}
+        </div>
         <div class="city__count row__column">{{ city.fact }}</div>
         <div class="city__count row__column">{{ city.official }}</div>
-        <div class="city__action row__column row__column_s">Действие</div>
+        <div class="city__action row__column row__column_s">
+          <img class="edit" src="./assets/icons/edit.png" alt="" />
+          <img class="delete" src="./assets/icons/delete.png" alt="" />
+        </div>
       </div>
       <div
         @click="openCenter"
@@ -26,11 +31,14 @@
       >
         <div class="data-tree__center row">
           <div class="center__name row__column row__column_b">
-            {{ center.name }}
+            <span>&#62;</span> {{ center.name }}
           </div>
           <div class="сenter__count row__column">{{ center.fact }}</div>
           <div class="сenter__count row__column">{{ center.official }}</div>
-          <div class="сenter__action row__column row__column_s">Действие</div>
+          <div class="сenter__action row__column row__column_s">
+            <img class="edit" src="./assets/icons/edit.png" alt="" />
+            <img class="delete" src="./assets/icons/delete.png" alt="" />
+          </div>
         </div>
         <div
           class="data-tree__deps-block"
@@ -43,7 +51,13 @@
             </div>
             <div class="dep__count row__column">{{ dep.fact }}</div>
             <div class="dep__count row__column">{{ dep.official }}</div>
-            <div class="dep__action row__column row__column_s">Действие</div>
+            <div class="dep__action row__column row__column_s">
+              <img class="edit" src="./assets/icons/edit.png" alt="" /><img
+                class="delete"
+                src="./assets/icons/delete.png"
+                alt=""
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -77,9 +91,9 @@ $fontfamily: Arial;
   padding: 30px 15px;
   margin: 0 auto;
 }
-
-
-
+* {
+  transition: all 0.3s ease-in;
+}
 .row {
   padding: 10px 0;
   display: flex;
@@ -91,6 +105,11 @@ $fontfamily: Arial;
     }
 
     &_s {
+      img {
+        width: 25px;
+        height: 25px;
+        margin: 0 5px 0 0;
+      }
     }
   }
 }
@@ -105,6 +124,10 @@ $fontfamily: Arial;
     position: relative;
     z-index: 1;
     &.active {
+      .city__name span {
+        display: inline-block;
+        transform: rotate(90deg);
+      }
       > .data-tree__center-block {
         height: 100%;
       }
@@ -121,6 +144,10 @@ $fontfamily: Arial;
     overflow: hidden;
     height: 0;
     &.active {
+      .center__name span {
+        display: inline-block;
+        transform: rotate(90deg);
+      }
       > .data-tree__deps-block {
         height: 100%;
       }
