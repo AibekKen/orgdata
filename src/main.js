@@ -205,6 +205,16 @@ export const store = createStore({
           dep.center = changeCenter.newCenter
         }
       })
+    },
+    editDep(state, changeDep) {
+      state.companyEmployers.forEach((dep) => {
+        if (dep.id === changeDep.id) {
+          dep.city = changeDep.city;
+          dep.center = changeDep.center;
+          dep.fact = changeDep.fact;
+          dep.official = changeDep.official
+        }
+      })
     }
   }
 })

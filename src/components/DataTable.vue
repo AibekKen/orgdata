@@ -91,6 +91,76 @@
           v-for="dep in center.deps"
           :key="dep.name"
         >
+          <form
+            @submit.prevent="editDeps(dep.id)"
+            :id="dep.id"
+            class="edit-dep__modal editName"
+          >
+            <h2 class="edit-dep__title">Изменить отдел</h2>
+            <div class="edit-dep__city">
+              <label class="labelInput" for="inputCity">Город:*</label>
+              <input
+                v-model="cityEdit"
+                class="edit-dep__input-city input"
+                required
+                type="text"
+                id="inputCity"
+              />
+            </div>
+            <div class="edit-dep__center">
+              <label class="labelInput" for="inputCenter">Центр:*</label>
+              <input
+                v-model="centerEdit"
+                class="edit-dep__input-center input"
+                type="text"
+                required
+                id="inputCenter"
+              />
+            </div>
+            <div class="edit-dep__dep">
+              <label class="labelInput" for="inputDep">Отдел:*</label>
+              <input
+                v-model="depEdit"
+                class="edit-dep__input-dep input"
+                required
+                type="text"
+                id="inputDep"
+              />
+            </div>
+            <div class="add__count general">
+              <label class="labelInputNum" for="inputGen"
+                >Общее количество*:</label
+              >
+              <input
+                v-model="genCount"
+                class="edit-dep__input-gen"
+                required
+                min="0"
+                type="number"
+                id="inputGen"
+              />
+            </div>
+            <div class="add__count fact">
+              <label class="labelInputNum" required for="inputFact"
+                >Фактическое количество:*</label
+              >
+              <input
+                v-model="factCount"
+                class="edit-dep__input-fact"
+                min="0"
+                type="number"
+                id="inputFact"
+              />
+            </div>
+            <button class="edit-dep__submit" type="submit">Сохранить</button>
+            <button
+              @click.prevent="closeEditName(dep.id)"
+              class="edit-dep__close"
+            >
+              Закрыть
+            </button>
+          </form>
+
           <div class="data-tree__dep row">
             <div class="dep__name row__column row__column_b">
               {{ dep.name }}
@@ -98,11 +168,16 @@
             <div class="dep__count row__column">{{ dep.fact }}</div>
             <div class="dep__count row__column">{{ dep.official }}</div>
             <div class="dep__action row__column row__column_s">
-              <img class="edit" src="@/assets/icons/edit.png" alt="" /><img
+              <a class="edit" href="#" @click.prevent="editName(dep.id)"
+                ><img src="@/assets/icons/edit.png" alt="" />
+              </a>
+              <a
                 class="delete"
-                src="@/assets/icons/delete.png"
-                alt=""
-              />
+                href="#"
+                @click.prevent="removeCenters(center.city, center.name)"
+              >
+                <img src="@/assets/icons/delete.png" alt="" />
+              </a>
             </div>
           </div>
         </div>
@@ -119,6 +194,9 @@ export default {
     return {
       cityEdit: "",
       centerEdit: "",
+      depEdit: "",
+      factCount: 0,
+      genCount: 0,
     };
   },
   components: { TableHead },
@@ -129,6 +207,7 @@ export default {
       "editCityName",
       "removeCenter",
       "editCenterName",
+      "editDep",
     ]),
     openCity: (e) => {
       e.currentTarget.classList.toggle("active");
@@ -173,6 +252,21 @@ export default {
       this.editCenterName(changeCenter);
       this.centerEdit = "";
     },
+    editDeps: function (id) {
+      const changeDep = {
+        id: id,
+        city: this.cityEdit,
+        center: this.centerEdit,
+        fact: this.factCount,
+        official: this.genCount,
+      };
+      this.editDep(changeDep);
+      this.cityEdit = "";
+      this.centerEdit = "";
+      this.depEdit = "";
+      this.factCount = 0;
+      this.genCount = 0;
+    },
   },
 };
 </script>
@@ -197,7 +291,7 @@ export default {
   }
 }
 
-.add-dep {
+.edit-dep {
   padding: 5px;
   margin: 0 0 20px 0;
 }
@@ -341,5 +435,97 @@ export default {
 }
 
 .edit {
+}
+
+.edit-dep {
+  &__modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background: #f9f9f9;
+    z-index: 5;
+    visibility: hidden;
+    opacity: 0;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 3px #2d3e50;
+    &.active {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  &__title {
+    margin: 0 0 10px 0;
+  }
+
+  &__city {
+    margin: 0 0 5px 0;
+  }
+
+  &__input-city {
+  }
+
+  &__center {
+    margin: 0 0 5px 0;
+  }
+
+  &__input-center {
+  }
+
+  &__dep {
+    margin: 0 0 5px 0;
+  }
+
+  &__input-dep {
+  }
+
+  &__input-gen {
+    width: 50px;
+    border: 1px solid #2d3e50;
+  }
+
+  &__input-fact {
+    width: 50px;
+    border: 1px solid #2d3e50;
+  }
+  &__submit {
+    padding: 3px;
+    color: #fff;
+    background: rgb(13, 4, 80);
+    margin: 0 10px 0 0;
+    &:hover {
+      background: rgb(36, 10, 236);
+    }
+  }
+  &__close {
+    padding: 3px;
+    background: rgb(147, 147, 149);
+  }
+}
+.input {
+  border: 1px solid #2d3e50;
+  width: 170px;
+  pad: 2px;
+}
+.add {
+  &__count {
+  }
+}
+.general {
+  margin: 0 0 5px 0;
+}
+.fact {
+  margin: 0 0 5px 0;
+}
+.labelInput {
+  display: inline-block;
+  width: 50px;
+}
+.labelInputNum {
+  display: inline-block;
+  width: 170px;
 }
 </style>
