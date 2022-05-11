@@ -186,10 +186,10 @@ export default {
   width: 170px;
   pad: 2px;
 }
-.add {
-  &__count {
-  }
+.add-dep {
+  margin: 0 0 10px 0;
 }
+
 .general {
   margin: 0 0 5px 0;
 }

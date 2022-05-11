@@ -2,111 +2,114 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createStore } from 'vuex'
 
-
-
-
+let companyEmployers = [];
+if (!localStorage.companyEmployers) {
+  companyEmployers = [
+    {
+      id: 1,
+      city: 'Нур-Султан',
+      center: 'Центр 1',
+      dep: 'Управление 1',
+      official: 46,
+      fact: 14
+    },
+    {
+      id: 2,
+      city: 'Нур-Султан',
+      center: 'Центр 1',
+      dep: 'Управление 2',
+      official: 17,
+      fact: 6
+    },
+    {
+      id: 3,
+      city: 'Нур-Султан',
+      center: 'Центр 2',
+      dep: 'Управление 1',
+      official: 48,
+      fact: 13
+    },
+    {
+      id: 4,
+      city: 'Нур-Султан',
+      center: 'Центр 2',
+      dep: 'Управление 2',
+      official: 18,
+      fact: 5
+    },
+    {
+      id: 5,
+      city: 'Алматы',
+      center: 'Центр 1',
+      dep: 'Управление 1',
+      official: 40,
+      fact: 25
+    },
+    {
+      id: 6,
+      city: 'Алматы',
+      center: 'Центр 1',
+      dep: 'Управление 2',
+      official: 24,
+      fact: 13
+    },
+    {
+      id: 7,
+      city: 'Алматы',
+      center: 'Центр 2',
+      dep: 'Управление 1',
+      official: 50,
+      fact: 15
+    },
+    {
+      id: 8,
+      city: 'Алматы',
+      center: 'Центр 2',
+      dep: 'Управление 2',
+      official: 16,
+      fact: 7
+    },
+    {
+      id: 9,
+      city: 'Атырау',
+      center: 'Центр 1',
+      dep: 'Управление 1',
+      official: 6,
+      fact: 4
+    },
+    {
+      id: 10,
+      city: 'Атырау',
+      center: 'Центр 1',
+      dep: 'Управление 2',
+      official: 40,
+      fact: 8
+    },
+    {
+      id: 11,
+      city: 'Атырау',
+      center: 'Центр 2',
+      dep: 'Управление 1',
+      official: 10,
+      fact: 3
+    },
+    {
+      id: 12,
+      city: 'Атырау',
+      center: 'Центр 2',
+      dep: 'Управление 2',
+      official: 15,
+      fact: 5
+    }
+  ]
+} else {
+  companyEmployers = JSON.parse(localStorage.companyEmployers)
+}
 
 export const store = createStore({
   state() {
     return {
-      companyEmployers: [
-        {
-          id: 1,
-          city: 'Нур-Cултан',
-          center: 'Центр 1',
-          dep: 'Управление 1',
-          official: 46,
-          fact: 14
-        },
-        {
-          id: 2,
-          city: 'Нур-Cултан',
-          center: 'Центр 1',
-          dep: 'Управление 2',
-          official: 17,
-          fact: 6
-        },
-        {
-          id: 3,
-          city: 'Нур-Cултан',
-          center: 'Центр 2',
-          dep: 'Управление 1',
-          official: 48,
-          fact: 13
-        },
-        {
-          id: 4,
-          city: 'Нур-Cултан',
-          center: 'Центр 2',
-          dep: 'Управление 2',
-          official: 18,
-          fact: 5
-        },
-        {
-          id: 5,
-          city: 'Алматы',
-          center: 'Центр 1',
-          dep: 'Управление 1',
-          official: 40,
-          fact: 25
-        },
-        {
-          id: 6,
-          city: 'Алматы',
-          center: 'Центр 1',
-          dep: 'Управление 2',
-          official: 24,
-          fact: 13
-        },
-        {
-          id: 7,
-          city: 'Алматы',
-          center: 'Центр 2',
-          dep: 'Управление 1',
-          official: 50,
-          fact: 15
-        },
-        {
-          id: 8,
-          city: 'Алматы',
-          center: 'Центр 2',
-          dep: 'Управление 2',
-          official: 16,
-          fact: 7
-        },
-        {
-          id: 9,
-          city: 'Атырау',
-          center: 'Центр 1',
-          dep: 'Управление 1',
-          official: 6,
-          fact: 4
-        },
-        {
-          id: 10,
-          city: 'Атырау',
-          center: 'Центр 1',
-          dep: 'Управление 2',
-          official: 40,
-          fact: 8
-        },
-        {
-          id: 11,
-          city: 'Атырау',
-          center: 'Центр 2',
-          dep: 'Управление 1',
-          official: 10,
-          fact: 3
-        },
-        {
-          id: 12,
-          city: 'Атырау',
-          center: 'Центр 2',
-          dep: 'Управление 2',
-          official: 15,
-          fact: 5
-        }
-      ]
+      companyEmployers: companyEmployers,
     }
   },
   getters: {
@@ -115,7 +118,6 @@ export const store = createStore({
       let deps = state.companyEmployers;
       let cities = Array.from(new Set(state.companyEmployers.map((el) => el.city)));
       cities.forEach((city) => dataTree.push({ city, centers: [] }));
-
       for (let i = 0; i < deps.length; i++) {
         for (let j = 0; j < dataTree.length; j++) {
           if (deps[i].city === dataTree[j].city) {
@@ -184,27 +186,32 @@ export const store = createStore({
   },
   mutations: {
     addDeps(state, obj) {
-      state.companyEmployers.push(obj)
+      state.companyEmployers.push(obj);
+      localStorage.setItem('companyEmployers', JSON.stringify(state.companyEmployers))
     },
     removeCity(state, city) {
-      state.companyEmployers = state.companyEmployers.filter((deps) => deps.city !== city)
+      state.companyEmployers = state.companyEmployers.filter((deps) => deps.city !== city);
+      localStorage.setItem('companyEmployers', JSON.stringify(state.companyEmployers))
     },
     removeCenter(state, center) {
-      state.companyEmployers = state.companyEmployers.filter((deps) => deps.city !== center.city || deps.center !== center.center)
+      state.companyEmployers = state.companyEmployers.filter((deps) => deps.city !== center.city || deps.center !== center.center);
+      localStorage.setItem('companyEmployers', JSON.stringify(state.companyEmployers))
     },
     editCityName(state, changeCityObj) {
       state.companyEmployers.forEach((dep) => {
         if (dep.city === changeCityObj.city) {
           dep.city = changeCityObj.newCity
         }
-      })
+      });
+      localStorage.setItem('companyEmployers', state.companyEmployers);
     },
     editCenterName(state, changeCenter) {
       state.companyEmployers.forEach((dep) => {
         if (dep.city === changeCenter.city && dep.center === changeCenter.center) {
           dep.center = changeCenter.newCenter
         }
-      })
+      });
+      localStorage.setItem('companyEmployers', JSON.stringify(state.companyEmployers));
     },
     editDep(state, changeDep) {
       state.companyEmployers.forEach((dep) => {
@@ -214,7 +221,8 @@ export const store = createStore({
           dep.fact = changeDep.fact;
           dep.official = changeDep.official
         }
-      })
+      });
+      localStorage.setItem('companyEmployers', JSON.stringify(state.companyEmployers));
     }
   }
 })
