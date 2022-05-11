@@ -19,7 +19,7 @@
         <input type="text" v-model="cityEdit" class="editName__input" />
         <button type="submit" class="editName__submit">Сохранить</button>
         <button
-          @click.prevent="closeEditCity(city.city)"
+          @click.prevent="closeEditName(city.city)"
           class="editName__close"
         >
           Закрыть
@@ -32,11 +32,11 @@
         <div class="city__count row__column">{{ city.fact }}</div>
         <div class="city__count row__column">{{ city.official }}</div>
         <div class="city__action row__column row__column_s">
-          <a href="#" @click="editName(city.city)"
-            ><img class="edit" src="@/assets/icons/edit.png" alt="" />
+          <a class="edit" href="#" @click="editName(city.city)"
+            ><img src="@/assets/icons/edit.png" alt="" />
           </a>
-          <a href="#" @click="removeCities(city.city)">
-            <img class="delete" src="@/assets/icons/delete.png" alt="" />
+          <a class="delete" href="#" @click="removeCities(city.city)">
+            <img src="@/assets/icons/delete.png" alt="" />
           </a>
         </div>
       </div>
@@ -48,17 +48,17 @@
       >
         <form
           @submit.prevent="submitEditCenter(center.city, center.name)"
-          :id="center.city + ' ' + center.name"
+          :id="center.city + center.name"
           action="#"
           class="editName"
         >
           <label for="editName__input" class="editName__label"
             >Новое название</label
           >
-          <input type="text" v-model="cityEdit" class="editName__input" />
+          <input type="text" v-model="centerEdit" class="editName__input" />
           <button type="submit" class="editName__submit">Сохранить</button>
           <button
-            @click="closeEditCenter(`${center.city} ${center.name}`)"
+            @click.prevent="closeEditName(`${center.city}${center.name}`)"
             class="editName__close"
           >
             Закрыть
@@ -71,11 +71,18 @@
           <div class="сenter__count row__column">{{ center.fact }}</div>
           <div class="сenter__count row__column">{{ center.official }}</div>
           <div class="сenter__action row__column row__column_s">
-            <a href="#" @click="editName(`${center.city} ${center.name}`)"
-              ><img class="edit" src="@/assets/icons/edit.png" alt="" />
+            <a
+              class="edit"
+              href="#"
+              @click.prevent="editName(`${center.city}${center.name}`)"
+              ><img src="@/assets/icons/edit.png" alt="" />
             </a>
-            <a href="#" @click="removeCenters(center.city, center.name)">
-              <img class="delete" src="@/assets/icons/delete.png" alt="" />
+            <a
+              class="delete"
+              href="#"
+              @click.prevent="removeCenters(center.city, center.name)"
+            >
+              <img src="@/assets/icons/delete.png" alt="" />
             </a>
           </div>
         </div>
@@ -117,11 +124,17 @@ export default {
   components: { TableHead },
   computed: mapGetters(["getDataTree"]),
   methods: {
-    ...mapMutations(["removeCity", "editCityName", "removeCenter"]),
+    ...mapMutations([
+      "removeCity",
+      "editCityName",
+      "removeCenter",
+      "editCenterName",
+    ]),
     openCity: (e) => {
       e.currentTarget.classList.toggle("active");
     },
     openCenter: (e) => {
+      e.stopPropagation();
       e.currentTarget.classList.toggle("active");
     },
     removeCities: function (city) {
@@ -134,11 +147,11 @@ export default {
       };
       this.removeCenter(centerObj);
     },
-    editName: function (city) {
+    editName: function (name) {
       document.querySelectorAll(".editName").forEach((editName) => {
         editName.classList.remove("active");
       });
-      document.querySelector("#" + city).classList.add("active");
+      document.getElementById(name).classList.add("active");
     },
     submitEditCity: function (city) {
       const changeCityObj = {
@@ -148,8 +161,17 @@ export default {
       this.editCityName(changeCityObj);
       this.cityEdit = "";
     },
-    closeEditCity: function (city) {
-      document.querySelector("#" + city).classList.remove("active");
+    closeEditName: function (name) {
+      document.getElementById(name).classList.remove("active");
+    },
+    submitEditCenter: function (city, center) {
+      const changeCenter = {
+        city: city,
+        center: center,
+        newCenter: this.centerEdit,
+      };
+      this.editCenterName(changeCenter);
+      this.centerEdit = "";
     },
   },
 };
@@ -316,5 +338,8 @@ export default {
   &__close {
     padding: 1px;
   }
+}
+
+.edit {
 }
 </style>

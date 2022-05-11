@@ -198,7 +198,13 @@ export const store = createStore({
           dep.city = changeCityObj.newCity
         }
       })
-
+    },
+    editCenterName(state, changeCenter) {
+      state.companyEmployers.forEach((dep) => {
+        if (dep.city === changeCenter.city && dep.center === changeCenter.center) {
+          dep.center = changeCenter.newCenter
+        }
+      })
     }
   }
 })
