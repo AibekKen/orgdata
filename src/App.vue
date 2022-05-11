@@ -108,7 +108,7 @@ export default {
       const dep = document.querySelector(".add-dep__input-dep").value;
       const gen = document.querySelector(".add-dep__input-gen").value;
       const fact = document.querySelector(".add-dep__input-fact").value;
-      this.addDeps("addDep", new Dep(city, center, dep, gen, fact));
+      this.addDeps(new Dep(city, center, dep, gen, fact));
     },
   },
 };

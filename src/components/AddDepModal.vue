@@ -83,7 +83,7 @@ export default {
       const modal = document.querySelector(".add-dep__modal");
       modal.classList.remove("active");
     },
-    addDep: (e) => {
+    addDep: function (e) {
       e.preventDefault();
       class Dep {
         constructor(city, center, dep, official, fact) {
@@ -95,12 +95,20 @@ export default {
           this.fact = fact;
         }
       }
-      const city = document.querySelector(".add-dep__input-city").value;
-      const center = document.querySelector(".add-dep__input-center").value;
-      const dep = document.querySelector(".add-dep__input-dep").value;
-      const gen = document.querySelector(".add-dep__input-gen").value;
-      const fact = document.querySelector(".add-dep__input-fact").value;
-      this.addDeps("addDep", new Dep(city, center, dep, gen, fact));
+      const obj = new Dep(
+        this.city,
+        this.center,
+        this.dep,
+        this.genCount,
+        this.factCount
+      );
+      this.$store.commit("addDeps", obj);
+      this.city = "";
+      this.center = "";
+      this.dep = "";
+      this.genCount = "";
+      this.factCount = "";
+      this.closeModal();
     },
   },
 };

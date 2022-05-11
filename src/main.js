@@ -6,7 +6,7 @@ import { createStore } from 'vuex'
 
 
 
-const store = createStore({
+export const store = createStore({
   state() {
     return {
       companyEmployers: [
@@ -179,12 +179,11 @@ const store = createStore({
         }
 
       }
-
       return dataTree
     }
   },
   mutations: {
-    addDeps: (state, obj) => {
+    addDeps(state, obj) {
       state.companyEmployers.push(obj)
     }
   }
@@ -194,5 +193,3 @@ const app = createApp(App)
 app.use(store)
 app.mount('#app')
 
-console.log(store.state.companyEmployers)
-console.log(store.getters.getDataTree)
