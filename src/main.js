@@ -185,6 +185,17 @@ export const store = createStore({
   mutations: {
     addDeps(state, obj) {
       state.companyEmployers.push(obj)
+    },
+    removeCity(state, city) {
+      state.companyEmployers = state.companyEmployers.filter((deps) => deps.city !== city)
+    },
+    editCityName(state, changeCityObj) {
+      state.companyEmployers.forEach((dep) => {
+        if (dep.city === changeCityObj.city) {
+          dep.city = changeCityObj.newCity
+        }
+      })
+
     }
   }
 })

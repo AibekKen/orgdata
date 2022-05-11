@@ -102,7 +102,7 @@ export default {
         this.genCount,
         this.factCount
       );
-      this.$store.commit("addDeps", obj);
+      this.addDeps(obj);
       this.city = "";
       this.center = "";
       this.dep = "";
