@@ -120,7 +120,7 @@ export const store = createStore({
         for (let j = 0; j < dataTree.length; j++) {
           if (deps[i].city === dataTree[j].city) {
             if (dataTree[j].centers.length === 0) {
-              dataTree[j].centers.push({ name: deps[i].center, deps: [] })
+              dataTree[j].centers.push({ city: deps[i].city, name: deps[i].center, deps: [] })
             }
             else {
               let check = () => {
@@ -131,7 +131,7 @@ export const store = createStore({
                 }
                 return true
               }
-              if (check()) dataTree[j].centers.push({ name: deps[i].center, deps: [] })
+              if (check()) dataTree[j].centers.push({ city: deps[i].city, name: deps[i].center, deps: [] })
             }
           }
         }
@@ -188,6 +188,9 @@ export const store = createStore({
     },
     removeCity(state, city) {
       state.companyEmployers = state.companyEmployers.filter((deps) => deps.city !== city)
+    },
+    removeCenter(state, center) {
+      state.companyEmployers = state.companyEmployers.filter((deps) => deps.city !== center.city || deps.center !== center.center)
     },
     editCityName(state, changeCityObj) {
       state.companyEmployers.forEach((dep) => {

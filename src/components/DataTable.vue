@@ -18,7 +18,10 @@
         >
         <input type="text" v-model="cityEdit" class="editName__input" />
         <button type="submit" class="editName__submit">Сохранить</button>
-        <button @click="closeEditCity(city.city)" class="editName__close">
+        <button
+          @click.prevent="closeEditCity(city.city)"
+          class="editName__close"
+        >
           Закрыть
         </button>
       </form>
@@ -29,7 +32,7 @@
         <div class="city__count row__column">{{ city.fact }}</div>
         <div class="city__count row__column">{{ city.official }}</div>
         <div class="city__action row__column row__column_s">
-          <a href="#" @click="editCities(city.city)"
+          <a href="#" @click="editName(city.city)"
             ><img class="edit" src="@/assets/icons/edit.png" alt="" />
           </a>
           <a href="#" @click="removeCities(city.city)">
@@ -43,6 +46,24 @@
         v-for="center in city.centers"
         :key="center.name"
       >
+        <form
+          @submit.prevent="submitEditCenter(center.city, center.name)"
+          :id="center.city + ' ' + center.name"
+          action="#"
+          class="editName"
+        >
+          <label for="editName__input" class="editName__label"
+            >Новое название</label
+          >
+          <input type="text" v-model="cityEdit" class="editName__input" />
+          <button type="submit" class="editName__submit">Сохранить</button>
+          <button
+            @click="closeEditCenter(`${center.city} ${center.name}`)"
+            class="editName__close"
+          >
+            Закрыть
+          </button>
+        </form>
         <div class="data-tree__center row">
           <div class="center__name row__column row__column_b">
             <span>&#62;</span> {{ center.name }}
@@ -50,8 +71,12 @@
           <div class="сenter__count row__column">{{ center.fact }}</div>
           <div class="сenter__count row__column">{{ center.official }}</div>
           <div class="сenter__action row__column row__column_s">
-            <img class="edit" src="@/assets/icons/edit.png" alt="" />
-            <img class="delete" src="@/assets/icons/delete.png" alt="" />
+            <a href="#" @click="editName(`${center.city} ${center.name}`)"
+              ><img class="edit" src="@/assets/icons/edit.png" alt="" />
+            </a>
+            <a href="#" @click="removeCenters(center.city, center.name)">
+              <img class="delete" src="@/assets/icons/delete.png" alt="" />
+            </a>
           </div>
         </div>
         <div
@@ -92,18 +117,24 @@ export default {
   components: { TableHead },
   computed: mapGetters(["getDataTree"]),
   methods: {
-    ...mapMutations(["removeCity", "editCityName"]),
+    ...mapMutations(["removeCity", "editCityName", "removeCenter"]),
     openCity: (e) => {
       e.currentTarget.classList.toggle("active");
     },
     openCenter: (e) => {
-      e.stopPropagation();
       e.currentTarget.classList.toggle("active");
     },
     removeCities: function (city) {
       this.removeCity(city);
     },
-    editCities: function (city) {
+    removeCenters: function (city, center) {
+      const centerObj = {
+        city,
+        center,
+      };
+      this.removeCenter(centerObj);
+    },
+    editName: function (city) {
       document.querySelectorAll(".editName").forEach((editName) => {
         editName.classList.remove("active");
       });
