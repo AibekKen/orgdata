@@ -220,8 +220,13 @@ export const store = createStore({
           dep.center = changeDep.center;
           dep.fact = changeDep.fact;
           dep.official = changeDep.official
+          dep.dep = changeDep.dep
         }
       });
+      localStorage.setItem('companyEmployers', JSON.stringify(state.companyEmployers));
+    },
+    removeDep(state, id) {
+      state.companyEmployers = state.companyEmployers.filter((dep) => dep.id !== id);
       localStorage.setItem('companyEmployers', JSON.stringify(state.companyEmployers));
     }
   }

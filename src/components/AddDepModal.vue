@@ -1,7 +1,7 @@
 <template lang="">
   <div>
   <button @click="openModal" class="add-dep">+ Добавить</button>
-    <form @submit="addDep" class="add-dep__modal">
+    <form @submit="addDep" class="add-dep__modal editName">
       <h2 class="add-dep__title">Добавить отдел</h2>
       <div class="add-dep__city">
         <label class="labelInput" for="inputCity">Город:*</label>
@@ -76,6 +76,9 @@ export default {
   methods: {
     ...mapMutations(["addDeps"]),
     openModal: () => {
+      document.querySelectorAll(".editName").forEach((editName) => {
+        editName.classList.remove("active");
+      });
       const modal = document.querySelector(".add-dep__modal");
       modal.classList.add("active");
     },
@@ -113,13 +116,14 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .add-dep {
   &__modal {
     position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    height: auto;
     background: #f9f9f9;
     z-index: 5;
     visibility: hidden;

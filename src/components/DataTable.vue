@@ -171,11 +171,7 @@
               <a class="edit" href="#" @click.prevent="editName(dep.id)"
                 ><img src="@/assets/icons/edit.png" alt="" />
               </a>
-              <a
-                class="delete"
-                href="#"
-                @click.prevent="removeCenters(center.city, center.name)"
-              >
+              <a class="delete" href="#" @click.prevent="removeDeps(dep.id)">
                 <img src="@/assets/icons/delete.png" alt="" />
               </a>
             </div>
@@ -208,6 +204,7 @@ export default {
       "removeCenter",
       "editCenterName",
       "editDep",
+      "removeDep",
     ]),
     openCity: (e) => {
       e.currentTarget.classList.toggle("active");
@@ -259,6 +256,7 @@ export default {
         center: this.centerEdit,
         fact: this.factCount,
         official: this.genCount,
+        dep: this.depEdit,
       };
       this.editDep(changeDep);
       this.cityEdit = "";
@@ -266,6 +264,9 @@ export default {
       this.depEdit = "";
       this.factCount = 0;
       this.genCount = 0;
+    },
+    removeDeps: function (id) {
+      this.removeDep(id);
     },
   },
 };
